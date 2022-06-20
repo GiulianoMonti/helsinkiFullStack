@@ -1,8 +1,17 @@
 import { useState } from "react";
 
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+);
+const StatisticsLine = ({ text, value }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{value} </td>
+  </tr>
+);
+
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
-  const all = good - bad;
   const average = (good - bad) / total;
   const positive = good / total;
 
@@ -10,14 +19,16 @@ const Statistics = ({ good, neutral, bad }) => {
     return <p>No feedback given</p>;
   }
   return (
-    <div>
-      Good: {good} <br />
-      Neutral: {neutral} <br />
-      Bad: {bad} <br />
-      All: {total} <br />
-      Average: {average} <br />
-      Positive: {positive} <br />
-    </div>
+    <table>
+      <tbody>
+        <StatisticsLine text="good" value={good} />
+        <StatisticsLine text="neutral" value={neutral} />
+        <StatisticsLine text="bad" value={bad} />
+        <StatisticsLine text="all" value={total} />
+        <StatisticsLine text="average" value={average} />
+        <StatisticsLine text="positive" value={positive} />
+      </tbody>
+    </table>
   );
 };
 
@@ -27,15 +38,32 @@ const App = () => {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
+  const handleBad = () => {
+    setBad(bad + 1);
+  };
+
+  const handleNeutral = () => {
+    setNeutral(neutral + 1);
+  };
+
+  const handleGood = () => {
+    setGood(good + 1);
+  };
+
   return (
     <div>
       <h1>Give feedback</h1>
-      <button onClick={() => setGood(good + 1)}>Good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>Neutral</button>
-      <button onClick={() => setBad(bad + 1)}>Bad</button>
+      <Button handleClick={handleGood} text="Good" />
+      <Button handleClick={handleNeutral} text="Neutral" />
+      <Button handleClick={handleBad} text="Bad" />
       <div>
         <h1>Statistics</h1>
-        <Statistics good={good} neutral={neutral} bad={bad} />
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          StatisticLine={StatisticsLine}
+        />
       </div>
     </div>
   );
