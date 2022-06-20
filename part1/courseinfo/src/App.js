@@ -17,26 +17,26 @@ const App = () => {
     ],
   };
 
-  const Header = (props) => {
-    return <h1>{props.course.name}</h1>;
+  const Header = ({ course }) => {
+    return <h1>{course.name}</h1>;
   };
-  const Total = (props) => {
+  const Total = ({ course }) => {
     return (
       <p>
         Number of exercises{" "}
-        {props.course.parts[0].exercises +
-          props.course.parts[1].exercises +
-          props.course.parts[2].exercises}
+        {course.parts[0].exercises +
+          course.parts[1].exercises +
+          course.parts[2].exercises}
       </p>
     );
   };
 
-  const Content = (props) => {
+  const Content = ({ course }) => {
     return (
       <p>
-        {props.course.parts[0].name}
-        <p>{props.course.parts[1].name}</p>
-        <p>{props.course.parts[2].name}</p>
+        {course.parts[0].name}
+        <p>{course.parts[1].name}</p>
+        <p>{course.parts[2].name}</p>
       </p>
     );
   };
