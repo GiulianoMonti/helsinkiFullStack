@@ -12,6 +12,11 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault();
+    //Prevent the user from being able to add names that already exist in the phonebook.
+    if (persons.find((person) => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`);
+      return;
+    }
 
     const personObject = {
       name: newName,
