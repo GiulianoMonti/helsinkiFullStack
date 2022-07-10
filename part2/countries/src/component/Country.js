@@ -1,6 +1,10 @@
 import React from "react";
 
-const Country = ({ c, search }) => {
+const Country = ({ c, search, setSearch }) => {
+  const handleClick = (name) => {
+    setSearch(name);
+  };
+
   if (search === "") {
     return <p>Please search countries</p>;
   }
@@ -40,7 +44,16 @@ const Country = ({ c, search }) => {
   }
   if (c.length > 1) {
     return c.map((country) => (
-      <p key={country.name.common}>{country.name.common}</p>
+      <p key={country.name.common}>
+        {country.name.common}
+        <button
+          onClick={() => {
+            handleClick(country.name.common);
+          }}
+        >
+          show
+        </button>
+      </p>
     ));
   }
   return <p>No matches</p>;

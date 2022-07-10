@@ -16,11 +16,11 @@ const App = () => {
     setSearch(e.target.value);
   };
 
-  const countriesToShow = countries
-    .filter((country) =>
-      country.name.common.toLowerCase().includes(search.toLowerCase())
-    )
-    .map((result) => result);
+  const countriesToShow = search
+    ? countries.filter((country) =>
+        country.name.common.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
   return (
     <div>
@@ -28,7 +28,7 @@ const App = () => {
         Find countries <input value={search} onChange={handleSearch} />
       </div>
       <div>
-        <Country c={countriesToShow} search={search} />
+        <Country c={countriesToShow} search={search} setSearch={setSearch} />
       </div>
     </div>
   );
