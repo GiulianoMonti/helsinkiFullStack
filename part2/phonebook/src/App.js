@@ -30,24 +30,40 @@ const App = () => {
     e.preventDefault();
     setSearch(e.target.value);
   };
-
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Do you really want to delete ${name}?`)) {
+      personService.deleteId(id);
+    }
+  };
   const addPerson = (e) => {
     e.preventDefault();
 
-    if (persons.find((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
-      return;
-    }
     const personObject = {
       name: newName,
       number: newNumber,
+      id: newName.toLowerCase(),
     };
 
-    personService.create(personObject).then((response) => {
-      setPersons(persons.concat(response));
-      setNewName("");
-      setNewNumber("");
-    });
+    const newPerson = persons.find((person) => person.name === newName);
+
+    if (newPerson !== undefined) {
+      const exists = `${newName} is already added to phonebook do you want to update`;
+      const answer = window.confirm(exists);
+      if (answer) {
+        personService.update(newPerson.id, personObject).then((response) => {
+          setPersons(
+            persons.map((person) =>
+              newPerson.id !== person.id ? person : response
+            )
+          );
+        });
+      }
+    } else
+      personService.create(personObject).then((response) => {
+        setPersons(persons.concat(response));
+        setNewName("");
+        setNewNumber("");
+      });
   };
   const personsToShow = persons
 
@@ -68,7 +84,7 @@ const App = () => {
         newName={newName}
         newNumber={newNumber}
       />
-      <Persons person={personsToShow} />
+      <Persons person={personsToShow} deletePerson={deletePerson} />
     </div>
   );
 };

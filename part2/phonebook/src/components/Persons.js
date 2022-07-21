@@ -1,16 +1,23 @@
 import React from "react";
 
-export default function Persons({ person }) {
+export default function Persons({ person, deletePerson }) {
   return (
-    <div>
+    <>
       <h2>Numbers</h2>
       <ul>
-        {person.map((person) => (
-          <li key={person.name}>
-            {person.name} {person.number}
+        {person.map((persons) => (
+          <li key={persons.name}>
+            {persons.name} {persons.number}
+            <button
+              onClick={() => {
+                deletePerson(persons.id, persons.name);
+              }}
+            >
+              delete
+            </button>
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }
